@@ -1,0 +1,58 @@
+# Health Reminder
+# This program can be used for alarming the office worker or old age people.
+# All the Time duration entery are entered in seconds.
+# Water -Drinkwater.mp3 (3.5ltrs) - Done - Log - Every 6min
+# Eyes - Eye Excercise.mp3 - Done - Log - Every 14min
+# Physical activity - Physical Activity.mp3 - Done - Log - Every 21min
+
+import time
+from time import time
+import pygame
+from pygame import mixer
+
+def get_date_time():
+ import datetime
+ return datetime.datetime.now()
+
+def play_music_loop(file,stopper): 
+ mixer.init()  # initialising the mixer
+ mixer.music.load(file)      # loading the music file
+ mixer.music.play()       # playing the music
+ while True:
+  x = input()
+  if x == stopper:
+   mixer.music.stop()          # stopping the music
+   break
+
+def Log_entery(msg):
+ with open("Log entery.txt", "a") as f:
+  f.write(f"{msg} {get_date_time()} \n")
+
+if __name__ == '__main__':
+ init_water = time()                     # initialising the water (Initial Time)
+ init_eyes_exer = time()                 # initialising the  eye exercise
+ init_physical_acti = time()             # initialising the physical activity
+
+ # Duration at which reminder should notify me (Time Duration)
+ Hydration = 6                          
+ Eye_Exercise = 14
+ Physical_Activity = 21
+
+while True:
+ if time() - init_water > Hydration:                            # Current time - Initital time > Time Duration   
+  print("Time to drink water", "Enter done to stop")
+  play_music_loop("DrinkWater.mp3", "done")
+  init_water = time()
+  Log_entery("Drank water at")
+
+ elif time() - init_eyes_exer > Eye_Exercise:
+  print("Time to relax your eyes", "Enter done to stop")
+  play_music_loop("Eye Excercise.mp3", "done")
+  init_eyes_exer = time()
+  Log_entery("Eyes are relaxed at")
+
+ elif time() - init_physical_acti > Physical_Activity:
+  print("Please mover around a little bit", "Enter done to stop")
+  play_music_loop("Physical Activity.mp3", "done")
+  init_physical_acti = time()
+  Log_entery("Physical Activity was performed at")
